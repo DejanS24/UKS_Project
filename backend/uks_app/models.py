@@ -1,16 +1,18 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
-class User(models.Model):
+class Account(models.Model):
     username = models.CharField(max_length=100)
     email = models.EmailField(max_length=120)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 class Project(models.Model):
     name = models.CharField(max_length=120)
     description = models.CharField(max_length=120)
     git_repo = models.CharField(max_length=120)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(Account, on_delete=models.CASCADE)
 
 
 class Label(models.Model):
@@ -50,7 +52,7 @@ class StateChange(Event):
 
 
 class ResponsibleChange(Event):
-    responsible = models.ForeignKey(User,
+    responsible = models.ForeignKey(Account,
                                     on_delete=models.SET_NULL,
                                     null=True)
 
