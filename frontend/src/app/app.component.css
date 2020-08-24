@@ -1,0 +1,26 @@
+/* TOP BAR HEADER */
+.top-bar{
+    background: #7aaec4;
+    height: 2.8rem;
+    padding: .5rem 0;
+}
+
+.top-bar a{
+    color: white;
+    text-decoration: white;
+    font-size: 1.4rem;
+}
+
+.navbar a:link{
+    color : white;
+
+}
+
+.navbar a:hover{
+    cursor:default;
+}
+
+
+
+
+ 

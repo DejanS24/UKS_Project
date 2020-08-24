@@ -1,0 +1,29 @@
+  <!--top bar-->
+
+  <div class="top-bar">
+    <div class="container">
+      <div class="col-12 text-right">
+          <a href="/"> GIT Tracker </a>
+      </div>
+    </div>
+  </div>
+
+  <!--top bar-->
+
+
+  <!--navigation bar-->
+
+  <nav class="navbar bg-dark navbar-light navbar-expand-lg" *ngIf="checkRoute()">
+    <div class="containter">
+      <button style="color:white" disabled="disabled"  (click) = "showProjectContainer()" class="btn">Projects</button>
+      <button class="navbar-toggler" type="button" data-toggle="collapse">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+  </nav>
+
+  <app-project-container *ngIf="checkRoute()"> </app-project-container>
+  <router-outlet></router-outlet>
+  
+
+  <!--navigation bar end-->
