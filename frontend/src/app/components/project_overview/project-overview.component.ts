@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute,Router } from '@angular/router';
+import { SharedDataService } from 'src/app/services/shared-data.service';
+import { FetchService } from 'src/app/services/fetch.service';
 
 @Component({
   selector: 'app-project-overview',
@@ -8,19 +10,34 @@ import { ActivatedRoute,Router } from '@angular/router';
 })
 export class ProjectOverviewComponent implements OnInit {
 
-  constructor(private activatedRoute: ActivatedRoute) { }
+  constructor(private activatedRoute: ActivatedRoute,
+     private sharedDataService: SharedDataService, private fetchService: FetchService, private router:Router) { }
 
-  name:String;
-  comments:Array<{}>;
-  issueSelected:boolean;
-  contentDisplay : String;
+  name;
+  comments;
+  issueSelected;
+  contentDisplay ;
+  private fullName;
+  private id;
+  private issues;
 
   
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(params => {
-      this.name = params.get('id');
+      this.id = params.get('id');
+      this.name = params.get('name');
     });
+    this.fetchService.getIssues(this.id + '/' + this.name).then(data => {
+      console.log(data);
+      this.issues = data;
+    });
+
+    // same for db issues
+  }
+
+  navigateToIssue(issue){
+    this.router.navigate([this.router.url + '/issue/' + issue.number]);
   }
 
   loadComments(){

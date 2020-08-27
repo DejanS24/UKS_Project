@@ -13,11 +13,15 @@ import { ProjectContainerComponent } from './components/project_container/projec
 
 const appRoutes = [
   {
-    path : 'project/:id',
+    path : 'project/:id/:name',
     component : ProjectOverviewComponent
   },
   {
     path : 'issue',
+    component : IssueComponent
+  },
+  {
+    path : 'project/:id/:name/issue/:number',
     component : IssueComponent
   }
 ];

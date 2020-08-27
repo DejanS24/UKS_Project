@@ -1,28 +1,26 @@
 <div>
 
-    <p>User/{{name}}</p>
+    <p class="reponame">User/{{name}}</p>
 
     <nav>
-        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-          <a class="nav-item nav-link" style="color: black;" id="nav-home-tab" (click)="loadIssues()" data-toggle="tab"  role="tab" aria-controls="nav-home">Issues</a>
-          <a class="nav-item nav-link" style="color: black;" id="nav-profile-tab" (click)="loadComments()" data-toggle="tab" role="tab" aria-controls="nav-profile">Comments</a>
-          <a class="nav-item nav-link" style="color: black;" id="nav-contact-tab" (click)="loadLabels()" data-toggle="tab" role="tab" aria-controls="nav-contact">Label</a>
-        </div>
 
-        <div [ngSwitch]="contentDisplay">
-          <div  class="label" *ngSwitchCase="'Issues'">
-            <app-issue></app-issue>
-          </div>
-          <div class="label" *ngSwitchCase="'Comments'">
-            <h1>Tutorials</h1>
-            <p>Learn from examples.</p>
-          </div>
-          <div class="label" *ngSwitchCase="'Labels'">
-            <h1>Cars</h1>
-            <p>Read about cars.</p>
-          </div>
-          <div *ngSwitchDefault></div>
+    <ul>
+        <div>
+            <h2 >Issues from github:</h2>
+            <li *ngFor="let issue of issues" (click)="navigateToIssue(issue)" class="list-item">
+                <span class="list-text">{{issue.title}} </span>
+            </li>
         </div>
+    </ul>
+
+    <ul>
+      <div>
+          <h2 >Issues from database:</h2>
+          <li *ngFor="let dbissue of issues" class="list-item">
+              <span class="list-text">{{dbissue.title}} </span>
+          </li>
+      </div>
+  </ul>
   
     </nav>
   
