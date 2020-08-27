@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import {FetchService} from 'src/app/services/fetch.service';
 
 @Component({
   selector: 'app-project-container',
@@ -8,9 +9,12 @@ import { Router } from '@angular/router';
 })
 export class ProjectContainerComponent implements OnInit {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router,  private fetchService: FetchService) { }
 
   ngOnInit() {
+    this.fetchService.getRepos('DejanS24').then(data => {
+      console.log(data);
+    });
     //api call for users projects
     this.projects.push(this.project1);
     this.projects.push(this.project2);
