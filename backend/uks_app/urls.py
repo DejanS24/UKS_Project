@@ -5,10 +5,10 @@ from .views.user_views import *
 
 urlpatterns = [
     path('', index, name='index'),
-    path('accounts/login/', login_user, name='login'),
+    path('login/', login_user, name='login'),
     path('register/', register_user, name='register'),
     # ex: projects/
-    path('projects/', projects, name='projects'),
+    path('projects/<str:git_username>/', projects, name='projects'),
     # ex: projects/5/
     path('projects/<int:project_id>/', project, name='project'),
     # ex: /5/issues/

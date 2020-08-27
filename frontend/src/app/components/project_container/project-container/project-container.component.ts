@@ -9,39 +9,17 @@ import {FetchService} from 'src/app/services/fetch.service';
 })
 export class ProjectContainerComponent implements OnInit {
 
-  constructor(private router:Router,  private fetchService: FetchService) { }
+  constructor(private router: Router,  private fetchService: FetchService) { }
 
   ngOnInit() {
     this.fetchService.getRepos('DejanS24').then(data => {
       console.log(data);
-    });
-    //api call for users projects
-    this.projects.push(this.project1);
-    this.projects.push(this.project2);
-    this.projects.push(this.project3);
+    }).catch(() => console.log('Hello user its caught'));
   }
 
-  navigateToProjectOverview(event){
+  navigateToProjectOverview(event) {
     console.log(event);
-    //write value to shared service and router navigate to project page
-    this.router.navigate(["/project/" + event.name]);
+    // write value to shared service and router navigate to project page
+    this.router.navigate(['/project/' + event.name]);
   }
-
-
-  projects:Array<{}> = [];
-
-  project1:{} = {
-    name : "MBRS",
-    language : "Java"
-  };
-
-  project2:{} = {
-    name : "UKS",
-    language : "Python"
-  };
-
-  project3:{} = {
-    name : "SEP",
-    language : "Java"
-  };
 }
