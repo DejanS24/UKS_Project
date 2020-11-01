@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from ..serializers import ProjectSerializer
 from ..models import *
 import requests
+import json
 
 
 def index(request):
@@ -27,10 +28,21 @@ def project(request, project_id):
 
 
 @api_view(['GET'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
+# @authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
 def projects(_, git_username):
     repos = requests.get('https://api.github.com/users/{0}/repos'.format(git_username))
+    repos_list = json.loads(repos.text)
+    owner = Account.objects.get(username=git_username)
+    if owner:
+        for repo in repos_list:
+            print(repo)
+            rep, created = Project.objects.get_or_create(
+                name=repo["name"],
+                description=repo["description"] or "",
+                git_repo=repo["url"],
+                owner=owner
+            )
     return HttpResponse(repos)
 
 
@@ -47,3 +59,7 @@ def issues(request, git_username, project_name):
 @permission_classes([IsAuthenticated])
 def issue(request, project_id, issue_id):
     return HttpResponse("You're inspecting this issue %s." % issue_id)
+
+
+def create(request):
+    Issue.objects.create(request.data)
