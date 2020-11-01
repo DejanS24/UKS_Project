@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import { HttpClientModule } from '@angular/common/http';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProjectOverviewComponent } from './components/project_overview/project-overview.component';
@@ -11,11 +13,15 @@ import { ProjectContainerComponent } from './components/project_container/projec
 
 const appRoutes = [
   {
-    path : 'project/:id',
+    path : 'project/:id/:name',
     component : ProjectOverviewComponent
   },
   {
     path : 'issue',
+    component : IssueComponent
+  },
+  {
+    path : 'project/:id/:name/issue/:number',
     component : IssueComponent
   }
 ];
@@ -30,6 +36,7 @@ const appRoutes = [
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     RouterModule.forRoot(
       appRoutes
     )

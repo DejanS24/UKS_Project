@@ -2,17 +2,17 @@
     <div class="mt-4">
       <div class="js-pinned-items-reorder-container">
           <ol  class="d-flex flex-wrap list-style-none gutter-condensed mb-4">
-              <li  *ngFor="let project of projects;" (click)="navigateToProjectOverview(project)" class="col-12 col-md-6 col-lg-6 mb-3 d-flex flex-content-stretch">
+              <li  *ngFor="let repo of repos;" (click)="navigateToProjectOverview(repo)" class="col-12 col-md-6 col-lg-6 mb-3 d-flex flex-content-stretch">
                 <div class="Box pinned-item-list-item d-flex p-3 width-full public source">
                   <div class="pinned-item-list-item-content">
                     <div class="d-flex width-full flex-items-center position-relative">
                       <a class="text-bold flex-auto min-width-0">
-                        <span class="repo" >{{project.name}}</span>
+                        <span class="repo" >{{repo.full_name}}</span>
                       </a>
                       </div>
                         <p class="mb-0 f6 text-gray">
                           <span class="d-inline-block mr-3">
-                              <span >{{project.language}}</span>
+                              <span >{{repo.language}}</span>
                           </span>
                         </p>
                       </div>

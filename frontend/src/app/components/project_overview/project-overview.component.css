@@ -11,3 +11,48 @@ a:link{
 .label{
   margin-left: 1rem;
 }
+
+.reponame{
+  margin-left: 1vw;
+}
+.list-text{
+  color: white;
+  vertical-align: middle;
+  margin-left: 2vw;
+}
+
+.centered-asset-name{
+  vertical-align: middle;
+  font-size: small;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.list-item{
+  margin-left: -2vw;
+  margin-bottom: 0.5vw;
+  border: 1px solid;
+  height: 4vw;
+  background-color: gray;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.align-right{
+  float: right;
+  margin-right: 1vw;
+}
+
+.spinner{
+  position: relative;
+  left: 40%;
+  width: 8vw;
+  height: 9vw;
+}
+
+h2{
+  margin-left: -2vw;
+}

@@ -1,1 +1,7 @@
-<p>issue works!</p>
+<ul>
+    <div>
+        <li *ngFor="let issue of issues" class="list-item">
+            <span class="list-text">{{item.price}}  &nbsp;<span class="align-right">  {{item.epochExchangeTime | date:'full'}} </span></span>
+        </li>
+    </div>
+</ul>

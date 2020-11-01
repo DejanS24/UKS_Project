@@ -17,8 +17,8 @@ def index(request):
 
 
 @api_view(['GET'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
+#@authentication_classes([TokenAuthentication])
+#@permission_classes([IsAuthenticated])
 def project(request, project_id):
     projects = Project.objects.get(id=project_id)
 
@@ -28,8 +28,8 @@ def project(request, project_id):
 
 
 @api_view(['GET'])
-# @authentication_classes([TokenAuthentication])
-# @permission_classes([IsAuthenticated])
+#@authentication_classes([TokenAuthentication])
+#@permission_classes([IsAuthenticated])
 def projects(_, git_username):
     repos = requests.get('https://api.github.com/users/{0}/repos'.format(git_username))
     repos_list = json.loads(repos.text)
@@ -47,10 +47,10 @@ def projects(_, git_username):
 
 
 @api_view(['GET'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
+#@authentication_classes([TokenAuthentication])
+#@permission_classes([IsAuthenticated])
 def issues(request, git_username, project_name):
-    repo = requests.get('https://api.github.com/repos/{0}/{1}'.format(git_username, project_name))
+    repo = requests.get('https://api.github.com/repos/{0}/{1}/issues'.format(git_username, project_name))
     return HttpResponse(repo)
 
 
@@ -63,3 +63,11 @@ def issue(request, project_id, issue_id):
 
 def create(request):
     Issue.objects.create(request.data)
+
+
+@api_view(['GET'])
+#@authentication_classes([TokenAuthentication])
+#@permission_classes([IsAuthenticated])
+def events(request, git_username, project_name, number_of_issue):
+    event = requests.get('https://api.github.com/repos/{0}/{1}/issues/{2}/events'.format(git_username, project_name,number_of_issue))
+    return HttpResponse(event)

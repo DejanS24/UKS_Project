@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FetchService } from 'src/app/services/fetch.service';
 
 @Component({
   selector: 'app-issue',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IssueComponent implements OnInit {
 
-  constructor() { }
+  constructor(private fetchService: FetchService) { }
 
   ngOnInit() {
+    this.fetchService.getEvents("s").then(data => {
+      console.log(data);
+    })
   }
 
 }
