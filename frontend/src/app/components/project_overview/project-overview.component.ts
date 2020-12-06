@@ -28,16 +28,20 @@ export class ProjectOverviewComponent implements OnInit {
       this.id = params.get('id');
       this.name = params.get('name');
     });
-    this.fetchService.getIssues(this.id + '/' + this.name).then(data => {
-      console.log(data);
-      this.issues = data;
-    });
+    // this.fetchService.getIssues(this.id + '/' + this.name).then(data => {
+    //   console.log(data);
+    //   this.issues = data;
+    // });
 
     // same for db issues
   }
 
   navigateToIssue(issue){
     this.router.navigate([this.router.url + '/issue/' + issue.number]);
+  }
+
+  createIssue(){
+    console.log('hej')
   }
 
   loadComments(){

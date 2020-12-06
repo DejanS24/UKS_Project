@@ -14,7 +14,7 @@ export class FetchService {
 
   private readonly eventApiEndpoint = 'http://127.0.0.1:8000/repos/DejanS24/UKS_Project/issues/3/events';
 
-  getRepos( username) {
+  getRepos(username) {
 
     const headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json'});
 

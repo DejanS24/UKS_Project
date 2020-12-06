@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,19 +11,32 @@ import { IssueComponent } from './components/issues/issue/issue.component';
 
 import {RouterModule, Routes} from '@angular/router';
 import { ProjectContainerComponent } from './components/project_container/project-container/project-container.component';
+import { LoginComponent } from './components/login/login.component';
+import { LoginGuardGuard} from './services/security/login-guard.guard';
+import { AuthGuardGuard } from './services/security/auth-guard.guard';
+import { AuthenticationService } from './services/security/authentication-service.service';
+import { TokenInterceptorService } from './services/security/token-interceptor.service';
 
 const appRoutes = [
   {
+    path: 'login',
+    component: LoginComponent, 
+    canActivate: [LoginGuardGuard] 
+  },
+  {
     path : 'project/:id/:name',
-    component : ProjectOverviewComponent
+    component : ProjectOverviewComponent,
+    canActivate: [AuthGuardGuard]
   },
   {
     path : 'issue',
-    component : IssueComponent
+    component : IssueComponent,
+    canActivate: [AuthGuardGuard]
   },
   {
     path : 'project/:id/:name/issue/:number',
-    component : IssueComponent
+    component : IssueComponent,
+    canActivate: [AuthGuardGuard]
   }
 ];
 
@@ -31,17 +45,27 @@ const appRoutes = [
     AppComponent,
     ProjectOverviewComponent,
     IssueComponent,
-    ProjectContainerComponent
+    ProjectContainerComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
     HttpClientModule,
     RouterModule.forRoot(
       appRoutes
     )
   ],
-  providers: [],
+  providers: [
+    AuthGuardGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptorService,
+      multi: true
+    },
+    AuthenticationService
+  ],
   exports: [RouterModule],
   bootstrap: [AppComponent]
 })

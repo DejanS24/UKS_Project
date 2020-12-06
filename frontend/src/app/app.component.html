@@ -15,7 +15,13 @@
 
   <nav class="navbar bg-dark navbar-light navbar-expand-lg" *ngIf="checkRoute()">
     <div class="containter">
-      <button style="color:white" disabled="disabled"  (click) = "showProjectContainer()" class="btn">Projects</button>
+      <div *ngIf="this.authenticationService.isLoggedIn()">
+        <button style="color:white" disabled="disabled"  (click) = "showProjectContainer()" class="btn">Projects</button>
+      </div>
+      <div *ngIf="!this.authenticationService.isLoggedIn()">
+        <!-- <button style="color:white" class="btn" >Log In</button> -->
+        <a style="color:white" class="btn" href="login">Log In</a>
+      </div>
       <button class="navbar-toggler" type="button" data-toggle="collapse">
         <span class="navbar-toggler-icon"></span>
       </button>

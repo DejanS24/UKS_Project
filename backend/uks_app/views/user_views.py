@@ -15,6 +15,7 @@ from ..models import User, Account
 def login_user(request):
     user = authenticate(username=request.data["username"],
                         password=request.data["password"])
+    print(request.data)
     if user is None:
         return HttpResponse("Username not found", status=404)
     # login(request, user)
