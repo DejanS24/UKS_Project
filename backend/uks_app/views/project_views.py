@@ -6,7 +6,7 @@ from rest_framework.decorators import permission_classes, authentication_classes
 from django.contrib.auth.decorators import login_required
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from ..serializers import ProjectSerializer
+from ..serializers import *
 from ..models import *
 import requests
 import json
@@ -61,8 +61,35 @@ def issue(request, project_id, issue_id):
     return HttpResponse("You're inspecting this issue %s." % issue_id)
 
 
-def create(request):
-    Issue.objects.create(request.data)
+# @api_view(['POST'])
+# @authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
+def create_issue(request):
+    print(request.data)
+    label = Label.objects.get(id=request.data["label_id"])
+    Issue.objects.create(title=request.data["title"],
+                         project_id=request.data["project_id"],
+                         state=IssueState(request.data["state"]),
+                         label=label)
+    # Issue.objects.create(request.data)
+
+
+# @api_view(['POST'])
+# @authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
+def get_labels(_):
+    labels = Label.objects.all()
+    serializer = LabelSerializer(labels, many=True)
+
+    return HttpResponse(serializer)
+
+
+# @api_view(['POST'])
+# @authentication_classes([TokenAuthentication])
+# @permission_classes([IsAuthenticated])
+def create_label(request):
+    Label.objects.create(title=request.data["name"],
+                         color=request.data["color"])
 
 
 @api_view(['GET'])

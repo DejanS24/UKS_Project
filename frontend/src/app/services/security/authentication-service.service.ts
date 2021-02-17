@@ -15,7 +15,7 @@ export class AuthenticationService {
     var headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 
     var _this = this;
-    
+
     var observer = {
       next(value) {
         console.log(value);

@@ -28,9 +28,9 @@ class IssueState(models.TextChoices):
 class Issue(models.Model):
     title = models.CharField(max_length=100)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    labels = models.ManyToManyField(Label)
+    labels = models.ManyToManyField(Label, blank=True)
     state = models.CharField(choices=IssueState.choices, max_length=6)
-    related_issues = models.ManyToManyField('self')
+    related_issues = models.ManyToManyField('self', blank=True)
 
 
 class ControlPoint(models.Model):

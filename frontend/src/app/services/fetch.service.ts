@@ -21,9 +21,37 @@ export class FetchService {
     return this.http.get(this.repoApiEndpoint + username + '/', {responseType : 'json'}).toPromise();
   }
 
+  getLabels(){
+    return this.http.get(this.issueApiEndpoint)
+  }
+
   getIssues( fullName) {
     console.log(fullName);
     return this.http.get(this.issueApiEndpoint + fullName + '/', {responseType: 'json'}).toPromise();
+  }
+
+  createLabel(label){
+    var headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.post(this.issueApiEndpoint, JSON.stringify({
+      name: label.name,
+      color: label.color
+    })
+    , { headers, responseType: 'text' as 'json'}).toPromise();
+  }
+
+  createIssue(issue){
+    var headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    // this.issue.project_id, this.issue.state,this.issue.label_id
+    // return this.http.post(this.issueApiEndpoint, {}).toPromise();
+    return this.http.post(this.issueApiEndpoint, JSON.stringify({ 
+      title : issue.title,
+      project_id: issue.project_id,
+      state: issue.state,
+      label_id: issue.label_id
+    })
+      , { headers , responseType : 'text' as 'json'}).toPromise();
   }
 
   getEvents( fullName) {

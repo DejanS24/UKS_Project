@@ -20,6 +20,22 @@
               <span class="list-text">{{dbissue.title}} </span>
           </li>
           <button class="btn btn-primary" (click)="open(content)">Add new issue</button>
+          <div>
+            <form class="form-issue" (ngSubmit)="newIssue()">
+              <h2 class="form-issue-heading">Create new Issue on GitTracker</h2>
+              <label for="title" class="sr-only">Title</label>
+              <input type="text" id="title" class="form-control" name="title" [(ngModel)]="issue.title" placeholder="Title"
+                required autofocus>
+              <label></label>
+              <label for="password" class="sr-only">Password</label>
+              <input type="password" id="password" class="form-control" name="password" [(ngModel)]="user.password" placeholder="Password"
+                required>
+                <div class="col-md-offset-2 mar_top">
+                  <button class="btn btn-success btn-block" id="sign_in" type="submit">Sign in</button>
+                  <button class="btn btn-primary btn-block" id="register" (click)="openRegistration()">Sign up</button>          
+                </div>
+              </form>
+          </div>
       </div>
   </ul>
   
@@ -27,28 +43,4 @@
   
 </div>
 
-<ng-template #content let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <form>
-        <div class="form-group">
-          <label for="dateOfBirth">Date of birth</label>
-          <div class="input-group">
-            <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
-    </div>
-  </ng-template>
 

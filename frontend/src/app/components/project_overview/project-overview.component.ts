@@ -10,9 +10,7 @@ import { FetchService } from 'src/app/services/fetch.service';
 })
 export class ProjectOverviewComponent implements OnInit {
 
-  constructor(private activatedRoute: ActivatedRoute,
-     private sharedDataService: SharedDataService, private fetchService: FetchService, private router:Router) { }
-
+  public user;
   name;
   comments;
   issueSelected;
@@ -20,7 +18,13 @@ export class ProjectOverviewComponent implements OnInit {
   private fullName;
   private id;
   private issues;
+  issue;
 
+  constructor(private activatedRoute: ActivatedRoute,
+    private sharedDataService: SharedDataService, private fetchService: FetchService, private router:Router) { 
+     this.user = {};
+     this.issue = {};
+    }
   
 
   ngOnInit() {
@@ -42,6 +46,10 @@ export class ProjectOverviewComponent implements OnInit {
 
   createIssue(){
     console.log('hej')
+  }
+
+  newIssue():void{
+    this.fetchService.createIssue(this.issue);
   }
 
   loadComments(){

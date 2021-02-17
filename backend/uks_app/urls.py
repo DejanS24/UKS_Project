@@ -16,5 +16,8 @@ urlpatterns = [
     # ex: /issues/5/
     path('projects/<int:project_id>/issue/<int:issue_id>/', issue, name='issue'),
 
+    path('labels/all', get_labels, name='labels'),
+    path('labels/create', create_label, name='label'),
+
     path('repos/<str:git_username>/<str:project_name>/issues/<int:number_of_issue>/events/', events, name='events')
 ]
