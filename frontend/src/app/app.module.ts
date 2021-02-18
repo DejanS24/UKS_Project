@@ -16,6 +16,9 @@ import { LoginGuardGuard} from './services/security/login-guard.guard';
 import { AuthGuardGuard } from './services/security/auth-guard.guard';
 import { AuthenticationService } from './services/security/authentication-service.service';
 import { TokenInterceptorService } from './services/security/token-interceptor.service';
+import { RegisterComponent } from './components/register/register/register.component';
+import {  ReactiveFormsModule } from '@angular/forms';
+
 
 const appRoutes = [
   {
@@ -37,6 +40,10 @@ const appRoutes = [
     path : 'project/:id/:name/issue/:number',
     component : IssueComponent,
     canActivate: [AuthGuardGuard]
+  },
+  {
+    path : 'register',
+    component : RegisterComponent
   }
 ];
 
@@ -46,7 +53,8 @@ const appRoutes = [
     ProjectOverviewComponent,
     IssueComponent,
     ProjectContainerComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +63,8 @@ const appRoutes = [
     HttpClientModule,
     RouterModule.forRoot(
       appRoutes
-    )
+    ),
+    ReactiveFormsModule
   ],
   providers: [
     AuthGuardGuard,

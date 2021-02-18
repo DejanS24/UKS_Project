@@ -15,7 +15,7 @@ from ..models import User, Account
 def login_user(request):
     user = authenticate(username=request.data["username"],
                         password=request.data["password"])
-    print(request.data)
+    print(user)
     if user is None:
         return HttpResponse("Username not found", status=404)
     # login(request, user)
@@ -26,9 +26,11 @@ def login_user(request):
 @csrf_exempt
 @api_view(['POST'])
 def register_user(request):
+    print ("came")
     user = User(username=request.data['username'],
                 password=request.data['password'],
                 email=request.data['email'])
+    user.set_password(request.data["password"])
     user.save()
     token = Token(user=user)
     token.save()
@@ -36,5 +38,6 @@ def register_user(request):
                       email=request.data['email'],
                       user=user)
     account.save()
+    
 
     return Response(request.data)

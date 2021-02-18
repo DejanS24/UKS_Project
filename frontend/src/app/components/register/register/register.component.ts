@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { RegisterServiceService } from 'src/app/services/register-service.service';
 
 @Component({
   selector: 'app-register',
@@ -11,6 +12,7 @@ export class RegisterComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
+    private registerService : RegisterServiceService
   ) { }
   registerForm: FormGroup;
   loading = false;
@@ -35,7 +37,13 @@ export class RegisterComponent implements OnInit {
       return;
     }
     this.loading = true;
-    //this.service.registerUser.then().catch(error)
+    this.registerService.registerUser(this.registerForm.get("firstName").value,this.registerForm.get("password").value).then( () => {
+      console.log("success");
+    }
+      
+    ).catch((err) => {
+      console.log(err);
+    })
   }
 
 }
