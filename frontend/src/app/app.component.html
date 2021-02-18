@@ -22,6 +22,9 @@
         <!-- <button style="color:white" class="btn" >Log In</button> -->
         <a style="color:white" class="btn" href="login">Log In</a>
       </div>
+      <div *ngIf="!this.authenticationService.isLoggedIn()">
+        <a style="color:white" class="btn" href="register">Register</a>
+      </div>
       <button class="navbar-toggler" type="button" data-toggle="collapse">
         <span class="navbar-toggler-icon"></span>
       </button>

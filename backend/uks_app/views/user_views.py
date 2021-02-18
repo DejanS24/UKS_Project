@@ -26,11 +26,9 @@ def login_user(request):
 @csrf_exempt
 @api_view(['POST'])
 def register_user(request):
-    print ("came")
     user = User(username=request.data['username'],
-                password=request.data['password'],
                 email=request.data['email'])
-    user.set_password(request.data["password"])
+    user.set_password(request.data['password'])
     user.save()
     token = Token(user=user)
     token.save()

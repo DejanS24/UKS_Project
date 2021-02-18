@@ -11,9 +11,10 @@ export class TokenInterceptorService {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let authenticationService:AuthenticationService = this.inj.get(AuthenticationService);
-    const re = '/login/';
+    const lo = '/login/';
+    const re = '/register/';
     // Exclude interceptor for login request:
-    if (request.url.search(re) === -1 ) {
+    if (request.url.search(lo) === -1 && request.url.search(re) === -1) {
       request = request.clone({
         setHeaders: {
           'Authorization': `Token ${authenticationService.getToken()}`

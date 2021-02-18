@@ -31,13 +31,18 @@ export class RegisterComponent implements OnInit {
   get fval() { return this.registerForm.controls; }
 
   onFormSubmit() {
+    console.log('here');
     this.submitted = true;
     // return for here if form is invalid
     if (this.registerForm.invalid) {
       return;
     }
     this.loading = true;
-    this.registerService.registerUser(this.registerForm.get("firstName").value,this.registerForm.get("password").value).then( () => {
+    this.registerService.registerUser(this.registerForm.get("firstName").value,
+                                      this.registerForm.get("password").value,
+                                      this.registerForm.get("email").value,
+                                      this.registerForm.get("github").value)
+    .then( () => {
       console.log("success");
     }
       
