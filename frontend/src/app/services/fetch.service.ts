@@ -12,6 +12,8 @@ export class FetchService {
 
   private readonly issueApiEndpoint = 'http://127.0.0.1:8000/issues/';
 
+  private readonly labelApiEndpoint = 'http://127.0.0.1:8000/labels/';
+
   private readonly eventApiEndpoint = 'http://127.0.0.1:8000/repos/DejanS24/UKS_Project/issues/3/events';
 
   getRepos(username) {
@@ -22,7 +24,7 @@ export class FetchService {
   }
 
   getLabels(){
-    return this.http.get(this.issueApiEndpoint)
+    return this.http.get(this.labelApiEndpoint+'all', {responseType : 'text' as 'json'});
   }
 
   getIssues( fullName) {
@@ -33,7 +35,7 @@ export class FetchService {
   createLabel(label){
     var headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    return this.http.post(this.issueApiEndpoint, JSON.stringify({
+    return this.http.post(this.labelApiEndpoint+'create', JSON.stringify({
       name: label.name,
       color: label.color
     })
@@ -45,9 +47,9 @@ export class FetchService {
 
     // this.issue.project_id, this.issue.state,this.issue.label_id
     // return this.http.post(this.issueApiEndpoint, {}).toPromise();
-    return this.http.post(this.issueApiEndpoint, JSON.stringify({ 
+    return this.http.post(this.issueApiEndpoint+'create', JSON.stringify({ 
       title : issue.title,
-      project_id: issue.project_id,
+      project_name: issue.project_name,
       state: issue.state,
       label_id: issue.label_id
     })

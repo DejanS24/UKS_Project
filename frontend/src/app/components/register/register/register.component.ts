@@ -31,7 +31,6 @@ export class RegisterComponent implements OnInit {
   get fval() { return this.registerForm.controls; }
 
   onFormSubmit() {
-    console.log('here');
     this.submitted = true;
     // return for here if form is invalid
     if (this.registerForm.invalid) {

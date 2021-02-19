@@ -12,18 +12,24 @@ export class ProjectOverviewComponent implements OnInit {
 
   public user;
   name;
+  id;
+  githubUrl;
   comments;
   issueSelected;
   contentDisplay ;
   private fullName;
-  private id;
   private issues;
+  private labels;
   issue;
+  label;
+  createIssueVisible = false;
+  createLabelVisible = false;
 
   constructor(private activatedRoute: ActivatedRoute,
     private sharedDataService: SharedDataService, private fetchService: FetchService, private router:Router) { 
      this.user = {};
      this.issue = {};
+     this.label = {};
     }
   
 
@@ -31,12 +37,20 @@ export class ProjectOverviewComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe(params => {
       this.id = params.get('id');
       this.name = params.get('name');
+      this.githubUrl = "https://github.com/"+this.id+"/"+this.name;
     });
-    // this.fetchService.getIssues(this.id + '/' + this.name).then(data => {
-    //   console.log(data);
-    //   this.issues = data;
-    // });
+    this.fetchService.getIssues(this.id + '/' + this.name).then(data => {
+      console.log(data);
+      this.issues = data;
+    },
+    error => {
+      console.log(error);
+    });
 
+    this.fetchService.getLabels().subscribe(data => {
+      console.log(data);
+      this.labels = JSON.parse(data+"");
+    })
     // same for db issues
   }
 
@@ -44,12 +58,25 @@ export class ProjectOverviewComponent implements OnInit {
     this.router.navigate([this.router.url + '/issue/' + issue.number]);
   }
 
+  createIssueForm(){
+    this.createIssueVisible = !this.createIssueVisible
+  }
+
+  createLabelForm(){
+    this.createLabelVisible = !this.createLabelVisible
+  }
+
   createIssue(){
     console.log('hej')
   }
 
   newIssue():void{
+    this.issue["project_name"]=this.name;
     this.fetchService.createIssue(this.issue);
+  }
+
+  newLabel(){
+    this.fetchService.createLabel(this.label)
   }
 
   loadComments(){

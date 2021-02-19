@@ -1,13 +1,15 @@
-<div>
+<div class="col-md">
 
-    <p class="reponame">User/{{name}}</p>
+    <p class="reponame">{{id}}/{{name}}</p>
+
+    <span>Github link: <a [href]="githubUrl">{{githubUrl}}</a></span>
 
     <nav>
 
     <ul>
         <div>
             <h2 >Issues from Github:</h2>
-            <li *ngFor="let issue of issues" (click)="navigateToIssue(issue)" class="list-item">
+            <li *ngFor="let issue of issues.remote" (click)="navigateToIssue(issue)" class="list-item">
                 <span class="list-text">{{issue.title}} </span>
             </li>
         </div>
@@ -15,24 +17,48 @@
 
     <ul>
       <div>
-          <h2 >Issues from GitTracker:</h2>
-          <li *ngFor="let dbissue of issues" class="list-item">
+        <h2 >Issues from GitTracker:</h2>
+          <li *ngFor="let dbissue of issues.local" class="list-item">
               <span class="list-text">{{dbissue.title}} </span>
           </li>
-          <button class="btn btn-primary" (click)="open(content)">Add new issue</button>
-          <div>
+      </div>
+      <div class="mt-3 row">  
+          <button class="btn btn-primary btn-block" (click)="createIssueForm()">Add new issue</button>
+          <div *ngIf="createIssueVisible">
             <form class="form-issue" (ngSubmit)="newIssue()">
-              <h2 class="form-issue-heading">Create new Issue on GitTracker</h2>
+              <h3>Create new Issue on GitTracker</h3>
               <label for="title" class="sr-only">Title</label>
               <input type="text" id="title" class="form-control" name="title" [(ngModel)]="issue.title" placeholder="Title"
                 required autofocus>
               <label></label>
-              <label for="password" class="sr-only">Password</label>
-              <input type="password" id="password" class="form-control" name="password" [(ngModel)]="user.password" placeholder="Password"
+              <label for="state" class="sr-only">State</label>
+              <input type="state" id="state" class="form-control" name="state" [(ngModel)]="issue.state" placeholder="State"
+                required>
+              <label for="label_id" class="sr-only">Label</label>
+              <select class="form-control" id="issueLabel" name="label_id"  [(ngModel)]="issue.label_id">
+                <option *ngFor="let lab of labels" 
+                    [value]="lab.id">
+                  {{lab.name}}
+                </option>
+              </select>
+              <div class="col-md-offset-2 mar_top">
+                <button class="btn btn-success btn-block" id="createIssue" type="submit">Create</button>
+              </div>
+            </form>
+          </div>
+          <button class="btn btn-primary btn-block" (click)="createLabelForm()">Add new label</button>
+          <div *ngIf="createLabelVisible">
+            <form class="form-label" (ngSubmit)="newLabel()">
+              <h3>Create new Label on GitTracker</h3>
+              <label for="name" class="sr-only">Name</label>
+              <input type="text" id="name" class="form-control" name="name" [(ngModel)]="label.name" placeholder="Name"
+                required autofocus>
+              <label></label>
+              <label for="color" class="sr-only">Color</label>
+              <input type="text" id="color" class="form-control" name="color" [(ngModel)]="label.color" placeholder="Color"
                 required>
                 <div class="col-md-offset-2 mar_top">
-                  <button class="btn btn-success btn-block" id="sign_in" type="submit">Sign in</button>
-                  <button class="btn btn-primary btn-block" id="register" (click)="openRegistration()">Sign up</button>          
+                  <button class="btn btn-success btn-block" id="createLabel" type="submit">Create</button>
                 </div>
               </form>
           </div>

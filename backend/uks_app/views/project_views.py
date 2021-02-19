@@ -33,9 +33,14 @@ def project(request, project_id):
 def projects(_, git_username):
     repos = requests.get('https://api.github.com/users/{0}/repos'.format(git_username))
     repos_list = json.loads(repos.text)
-    owner = Account.objects.get(username=git_username)
+    # repos = []
+    try:
+        owner = Account.objects.get(username=git_username)
+    except Account.DoesNotExist:
+        owner = None
     if owner:
         for repo in repos_list:
+        # for repo in []:
             print(repo)
             rep, created = Project.objects.get_or_create(
                 name=repo["name"],
@@ -50,8 +55,14 @@ def projects(_, git_username):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def issues(request, git_username, project_name):
+
+    acc = Account.objects.get(user=request.user)
+    # issues = Issue.objects.get(git_username=acc.username, project)
     repo = requests.get('https://api.github.com/repos/{0}/{1}/issues'.format(git_username, project_name))
-    return HttpResponse(repo)
+    # return HttpResponse(repo)
+
+    return JsonResponse({"remote": repo, "local": [IssueSerializer(Issue.objects.get(id=1)).data]})
+    # return HttpResponse({})
 
 
 @api_view(['GET'])
@@ -61,35 +72,39 @@ def issue(request, project_id, issue_id):
     return HttpResponse("You're inspecting this issue %s." % issue_id)
 
 
-# @api_view(['POST'])
-# @authentication_classes([TokenAuthentication])
-# @permission_classes([IsAuthenticated])
+@api_view(['POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def create_issue(request):
     print(request.data)
     label = Label.objects.get(id=request.data["label_id"])
-    Issue.objects.create(title=request.data["title"],
-                         project_id=request.data["project_id"],
-                         state=IssueState(request.data["state"]),
-                         label=label)
+    project = Project.objects.get(name=request.data["project_name"])
+    issue = Issue.objects.create(title=request.data["title"],
+                                 project_id=project.id,
+                                 state=IssueState(request.data["state"]))
+    issue.labels.set([label])
+    issue.save()
     # Issue.objects.create(request.data)
+    return HttpResponse("Success")
 
 
-# @api_view(['POST'])
-# @authentication_classes([TokenAuthentication])
-# @permission_classes([IsAuthenticated])
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def get_labels(_):
     labels = Label.objects.all()
     serializer = LabelSerializer(labels, many=True)
 
-    return HttpResponse(serializer)
+    return JsonResponse(serializer.data, safe=False)
 
 
-# @api_view(['POST'])
-# @authentication_classes([TokenAuthentication])
-# @permission_classes([IsAuthenticated])
+@api_view(['POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def create_label(request):
-    Label.objects.create(title=request.data["name"],
+    Label.objects.create(name=request.data["name"],
                          color=request.data["color"])
+    return HttpResponse("Success")
 
 
 @api_view(['GET'])
