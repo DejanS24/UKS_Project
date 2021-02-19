@@ -15,9 +15,11 @@ export class TokenInterceptorService {
     const re = '/register/';
     // Exclude interceptor for login request:
     if (request.url.search(lo) === -1 && request.url.search(re) === -1) {
+      let a = authenticationService.getToken();
+      console.log(a);
       request = request.clone({
         setHeaders: {
-          'Authorization': `Token ${authenticationService.getToken()}`
+          'Authorization': `Token ${authenticationService.getToken()[0].key}`
         }
       });
     }

@@ -41,6 +41,7 @@ export class ProjectOverviewComponent implements OnInit {
     });
     this.fetchService.getIssues(this.id + '/' + this.name).then(data => {
       console.log(data);
+      console.log("issssues");
       this.issues = data;
     },
     error => {

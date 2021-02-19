@@ -20,9 +20,14 @@ export class AuthenticationService {
       next(value) {
         console.log(value);
         if (value !== "Invalid login") {
+          console.log(JSON.parse(value))
+          value = JSON.parse(value)
+          let token = value["token"]
+          let owner = value["owner"]
           localStorage.setItem('currentUser', JSON.stringify({ 
                                     username: name,
-                                    token: value
+                                    token: token,
+                                    owner: owner
                                   }));
           callback.handleLogin(true);
         }

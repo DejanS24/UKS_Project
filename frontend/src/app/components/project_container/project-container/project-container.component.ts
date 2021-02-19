@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {FetchService} from 'src/app/services/fetch.service';
+import { AuthenticationService } from 'src/app/services/security/authentication-service.service';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 
 @Component({
@@ -10,12 +11,14 @@ import { SharedDataService } from 'src/app/services/shared-data.service';
 })
 export class ProjectContainerComponent implements OnInit {
 
-  constructor(private router: Router,  private fetchService: FetchService, private sharedService: SharedDataService) { }
+  constructor(private router: Router,  private fetchService: FetchService, private sharedService: SharedDataService, private authService : AuthenticationService) { }
 
   private repos = [];
 
   ngOnInit() {
-    this.fetchService.getRepos('DejanS24').then(data => {
+    let user = this.authService.getCurrentUser();
+    console.log(user);
+    this.fetchService.getRepos(user.owner).then(data => {
       this.wrapResponse(data);
     }).catch(() => console.log('Hello user its caught'));
   }
