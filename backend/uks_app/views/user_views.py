@@ -8,7 +8,10 @@ from rest_framework.authtoken.models import Token
 from django.views.decorators.csrf import csrf_exempt
 
 from ..models import User, Account
-
+from pprint import pprint
+from django.http.response import JsonResponse
+from django.core import serializers
+from ..serializers import *
 
 @csrf_exempt
 @api_view(['POST'])
@@ -16,11 +19,15 @@ def login_user(request):
     user = authenticate(username=request.data["username"],
                         password=request.data["password"])
     print(user)
+    owner = Account.objects.get(user=user)
+    User.git_hub_username = property(lambda self: owner.username)
+    pprint(vars(user))
+    print(user.git_hub_username)
     if user is None:
         return HttpResponse("Username not found", status=404)
     # login(request, user)
     token = Token.objects.get(user=user)
-    return HttpResponse(token)
+    return JsonResponse({"token": [TokenSerializer(token).data], "owner": owner.username})
 
 
 @csrf_exempt

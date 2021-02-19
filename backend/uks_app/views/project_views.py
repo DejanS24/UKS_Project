@@ -41,7 +41,6 @@ def projects(_, git_username):
     if owner:
         for repo in repos_list:
         # for repo in []:
-            print(repo)
             rep, created = Project.objects.get_or_create(
                 name=repo["name"],
                 description=repo["description"] or "",
@@ -55,13 +54,17 @@ def projects(_, git_username):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def issues(request, git_username, project_name):
-
+    print('hereIssues')
     acc = Account.objects.get(user=request.user)
     # issues = Issue.objects.get(git_username=acc.username, project)
+    print(git_username)
+    print(project_name)
     repo = requests.get('https://api.github.com/repos/{0}/{1}/issues'.format(git_username, project_name))
+    json_repo = json.loads(repo.text)
+    print(repo.text)
     # return HttpResponse(repo)
 
-    return JsonResponse({"remote": repo, "local": [IssueSerializer(Issue.objects.get(id=1)).data]})
+    return JsonResponse({"remote": json_repo, "local": [IssueSerializer(Issue.objects.get(id=1)).data]})
     # return HttpResponse({})
 
 

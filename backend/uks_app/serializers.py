@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import *
+from rest_framework.authtoken.models import Token
 
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -17,4 +18,14 @@ class IssueSerializer(serializers.ModelSerializer):
 class LabelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Label
+        fields = '__all__'
+
+class TokenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Token
+        fields = ['key']
+
+class AccountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Account
         fields = '__all__'
