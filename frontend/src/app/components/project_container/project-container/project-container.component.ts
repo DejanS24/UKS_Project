@@ -35,4 +35,8 @@ export class ProjectContainerComponent implements OnInit {
     this.sharedService.setFocusedObject(event.full_name);
     this.router.navigate(['/project/' + event.full_name]);
   }
+
+  resetRepo() {
+    this.repos = [];
+  }
 }

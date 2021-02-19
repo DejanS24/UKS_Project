@@ -1,5 +1,6 @@
 import { Component,OnInit } from '@angular/core';
 import { ActivatedRoute,Router } from '@angular/router';
+import { ProjectContainerComponent } from './components/project_container/project-container/project-container.component';
 import { AuthenticationService } from './services/security/authentication-service.service';
 
 @Component({
@@ -23,7 +24,10 @@ export class AppComponent implements OnInit{
     return false;
   }
 
-
+  logout() {
+    localStorage.removeItem('currentUser');
+    location.reload();
+  }
 
 
 }

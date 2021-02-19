@@ -15,8 +15,9 @@
 
   <nav class="navbar bg-dark navbar-light navbar-expand-lg" *ngIf="checkRoute()">
     <div class="containter">
+
       <div *ngIf="this.authenticationService.isLoggedIn()">
-        <button style="color:white" disabled="disabled"  (click) = "showProjectContainer()" class="btn">Projects</button>
+        <button style="color:white" href='/'  (click) = "logout()" class="btn">Logout</button>
       </div>
       <div *ngIf="!this.authenticationService.isLoggedIn()">
         <!-- <button style="color:white" class="btn" >Log In</button> -->
