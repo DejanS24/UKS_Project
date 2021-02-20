@@ -3,7 +3,7 @@ from django.db import models
 
 
 class Account(models.Model):
-    username = models.CharField(max_length=100)
+    username = models.CharField(max_length=100, unique=True)
     email = models.EmailField(max_length=120)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
@@ -12,7 +12,7 @@ class Project(models.Model):
     name = models.CharField(max_length=120)
     description = models.CharField(max_length=120)
     git_repo = models.CharField(max_length=120)
-    owner = models.ForeignKey(Account, on_delete=models.CASCADE)
+    owner = models.ForeignKey(Account, on_delete=models.CASCADE, null=True)
 
 
 class Label(models.Model):
@@ -71,3 +71,7 @@ class CommentChange(Event):
     changed_comment = models.ForeignKey(Comment,
                                         on_delete=models.CASCADE)
 
+
+class Milestone(models.Model):
+    title = models.CharField(max_length=100)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)

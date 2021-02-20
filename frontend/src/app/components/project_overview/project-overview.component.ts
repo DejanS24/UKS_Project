@@ -22,14 +22,17 @@ export class ProjectOverviewComponent implements OnInit {
   private labels;
   issue;
   label;
+  milestone;
   createIssueVisible = false;
   createLabelVisible = false;
+  createMilestoneVisible = false;
 
   constructor(private activatedRoute: ActivatedRoute,
     private sharedDataService: SharedDataService, private fetchService: FetchService, private router:Router) { 
      this.user = {};
      this.issue = {};
      this.label = {};
+     this.milestone = {};
     }
   
 
@@ -67,6 +70,10 @@ export class ProjectOverviewComponent implements OnInit {
     this.createLabelVisible = !this.createLabelVisible
   }
 
+  createMilestoneForm(){
+    this.createMilestoneVisible = !this.createMilestoneVisible
+  }
+
   createIssue(){
     console.log('hej')
   }
@@ -77,7 +84,12 @@ export class ProjectOverviewComponent implements OnInit {
   }
 
   newLabel(){
-    this.fetchService.createLabel(this.label)
+    this.fetchService.createLabel(this.label);
+  }
+
+  newMilestone(){
+    this.milestone["project_name"]=this.name;
+    this.fetchService.createMilestone(this.milestone);
   }
 
   loadComments(){

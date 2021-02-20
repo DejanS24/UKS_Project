@@ -19,7 +19,7 @@ export class TokenInterceptorService {
       console.log(a);
       request = request.clone({
         setHeaders: {
-          'Authorization': `Token ${authenticationService.getToken()[0].key}`
+          'Authorization': `Token ${authenticationService.getToken()}`
         }
       });
     }

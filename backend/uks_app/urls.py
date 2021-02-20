@@ -20,5 +20,8 @@ urlpatterns = [
     path('labels/all', get_labels, name='labels'),
     path('labels/create', create_label, name='label'),
 
+    path('milestones/all', get_milestones, name='milestones'),
+    path('milestones/create', create_milestone, name='milestone'),
+
     path('repos/<str:git_username>/<str:project_name>/issues/<int:number_of_issue>/events/', events, name='events')
 ]

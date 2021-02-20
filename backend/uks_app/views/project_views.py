@@ -55,16 +55,22 @@ def projects(_, git_username):
 @permission_classes([IsAuthenticated])
 def issues(request, git_username, project_name):
     print('hereIssues')
-    acc = Account.objects.get(user=request.user)
-    # issues = Issue.objects.get(git_username=acc.username, project)
     print(git_username)
     print(project_name)
+    try:
+        acc = Account.objects.get(username=git_username)
+        project = Project.objects.get(name=project_name, owner=acc)
+        issues = Issue.objects.filter(project=project)
+        issuesSerialized = IssueSerializer(issues, many=True)
+    except Account.DoesNotExist:
+        issuesSerialized = IssueSerializer([], many=True)
+
     repo = requests.get('https://api.github.com/repos/{0}/{1}/issues'.format(git_username, project_name))
     json_repo = json.loads(repo.text)
     print(repo.text)
     # return HttpResponse(repo)
 
-    return JsonResponse({"remote": json_repo, "local": [IssueSerializer(Issue.objects.get(id=1)).data]})
+    return JsonResponse({"remote": json_repo, "local": issuesSerialized.data})
     # return HttpResponse({})
 
 
@@ -81,9 +87,9 @@ def issue(request, project_id, issue_id):
 def create_issue(request):
     print(request.data)
     label = Label.objects.get(id=request.data["label_id"])
-    project = Project.objects.get(name=request.data["project_name"])
+    proj = Project.objects.get(name=request.data["project_name"])
     issue = Issue.objects.create(title=request.data["title"],
-                                 project_id=project.id,
+                                 project_id=proj.id,
                                  state=IssueState(request.data["state"]))
     issue.labels.set([label])
     issue.save()
@@ -107,6 +113,27 @@ def get_labels(_):
 def create_label(request):
     Label.objects.create(name=request.data["name"],
                          color=request.data["color"])
+    return HttpResponse("Success")
+
+
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def get_milestones(_, git_username, project_name):
+    milestones = Milestone.objects.all()
+    serializer = MilestoneSerializer(milestones, many=True)
+
+    return JsonResponse(serializer.data, safe=False)
+
+
+@api_view(['POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def create_milestone(request):
+    proj = Project.objects.get(name=request.data["project_name"])
+
+    Milestone.objects.create(title=request.data["name"],
+                             project_id=proj.id)
     return HttpResponse("Success")
 
 

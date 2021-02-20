@@ -27,7 +27,7 @@ def login_user(request):
         return HttpResponse("Username not found", status=404)
     # login(request, user)
     token = Token.objects.get(user=user)
-    return JsonResponse({"token": [TokenSerializer(token).data], "owner": owner.username})
+    return JsonResponse({"token": TokenSerializer(token).data['key'], "owner": owner.username})
 
 
 @csrf_exempt

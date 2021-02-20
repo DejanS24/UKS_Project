@@ -14,6 +14,8 @@ export class FetchService {
 
   private readonly labelApiEndpoint = 'http://127.0.0.1:8000/labels/';
 
+  private readonly miletoneApiEndpoint = 'http://127.0.0.1:8000/milestones/';
+
   private readonly eventApiEndpoint = 'http://127.0.0.1:8000/repos/DejanS24/UKS_Project/issues/3/events';
 
   getRepos(username) {
@@ -54,6 +56,16 @@ export class FetchService {
       label_id: issue.label_id
     })
       , { headers , responseType : 'text' as 'json'}).toPromise();
+  }
+
+  createMilestone(milestone){
+    var headers: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.post(this.miletoneApiEndpoint+'create', JSON.stringify({
+      name: milestone.name,
+      project_name: milestone.project_name
+    })
+    , { headers, responseType: 'text' as 'json'}).toPromise();
   }
 
   getEvents( fullName) {

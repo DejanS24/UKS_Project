@@ -20,10 +20,18 @@ class LabelSerializer(serializers.ModelSerializer):
         model = Label
         fields = '__all__'
 
+
+class MilestoneSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Label
+        fields = '__all__'
+
+
 class TokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = Token
         fields = ['key']
+
 
 class AccountSerializer(serializers.ModelSerializer):
     class Meta:
